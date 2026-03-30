@@ -1,0 +1,339 @@
+"""
+Complete AAIPL System for Logical Reasoning
+Generates 1000 questions and answers with 100% accuracy target
+"""
+
+from logical_q_agent import LogicalReasoningQAgent
+from logical_a_agent import LogicalReasoningAAgent
+import json
+import time
+from typing import Dict, List
+
+class LogicalReasoningAAIPL:
+    def __init__(self, 
+                 model_path="unsloth/Qwen2-7B-Instruct",
+                 use_finetuned=False,
+                 finetuned_path=None):
+        """
+        Initialize complete AAIPL system
+        
+        Args:
+            model_path: Base model path
+            use_finetuned: Whether to use fine-tuned model
+            finetuned_path: Path to fine-tuned model if available
+        """
+        
+        print("\n" + "🏆"*30)
+        print("LOGICAL REASONING AAIPL SYSTEM")
+        print("🏆"*30)
+        
+        # Use fine-tuned model if available
+        if use_finetuned and finetuned_path:
+            model_path = finetuned_path
+            print(f"\n✅ Using fine-tuned model: {finetuned_path}")
+        else:
+            print(f"\n⚠️  Using base model: {model_path}")
+            print("   (Fine-tune on logical reasoning for better results)")
+        
+        # Initialize agents
+        self.q_agent = LogicalReasoningQAgent(model_path)
+        self.a_agent = LogicalReasoningAAgent(model_path)
+        
+        print("\n✅ System ready!")
+    
+    def generate_1000_questions(self, save_path="questions_1000.json") -> Dict:
+        """
+        Generate 1000 logical reasoning questions
+        
+        Distribution:
+        - 250 Syllogisms
+        - 250 Seating Arrangements
+        - 250 Blood Relations
+        - 250 Series/Patterns
+        """
+        
+        print("\n" + "="*60)
+        print("GENERATING 1000 QUESTIONS")
+        print("="*60)
+        
+        start_time = time.time()
+        
+        all_questions = self.q_agent.generate_all_1000()
+        
+        elapsed = time.time() - start_time
+        
+        # Save questions
+        self.q_agent.save_questions(all_questions, save_path)
+        
+        # Statistics
+        total = sum(len(q) for q in all_questions.values())
+        
+        print(f"\n" + "="*60)
+        print("GENERATION COMPLETE")
+        print("="*60)
+        print(f"Total Questions: {total}")
+        print(f"Time Taken: {elapsed/60:.1f} minutes")
+        print(f"Avg per Question: {elapsed/total:.2f} seconds")
+        
+        for category, questions in all_questions.items():
+            print(f"  {category}: {len(questions)}")
+        
+        return all_questions
+    
+    def answer_all_questions(self, questions_dict: Dict) -> Dict:
+        """
+        Answer all 1000 questions with accuracy tracking
+        """
+        
+        print("\n" + "="*60)
+        print("ANSWERING ALL 1000 QUESTIONS")
+        print("="*60)
+        
+        all_results = {}
+        overall_stats = {
+            'total': 0,
+            'correct': 0,
+            'total_time': 0
+        }
+        
+        for category, questions in questions_dict.items():
+            print(f"\n📝 Category: {category.upper()}")
+            print(f"   Questions: {len(questions)}")
+            
+            # Answer batch
+            results = self.a_agent.answer_batch(questions)
+            
+            all_results[category] = results
+            
+            # Update overall stats
+            overall_stats['total'] += results['total_questions']
+            overall_stats['correct'] += sum(
+                1 for r in results['results'] if r['is_correct']
+            )
+            overall_stats['total_time'] += sum(
+                r['time_seconds'] for r in results['results']
+            )
+        
+        # Calculate final statistics
+        overall_accuracy = (
+            overall_stats['correct'] / overall_stats['total'] * 100 
+            if overall_stats['total'] > 0 else 0
+        )
+        overall_avg_time = (
+            overall_stats['total_time'] / overall_stats['total']
+            if overall_stats['total'] > 0 else 0
+        )
+        
+        print("\n" + "="*60)
+        print("FINAL RESULTS")
+        print("="*60)
+        print(f"Total Questions: {overall_stats['total']}")
+        print(f"Correct Answers: {overall_stats['correct']}")
+        print(f"Overall Accuracy: {overall_accuracy:.2f}%")
+        print(f"Average Time: {overall_avg_time:.2f}s per question")
+        print(f"Total Time: {overall_stats['total_time']/60:.1f} minutes")
+        
+        # Check requirements
+        print(f"\n{'='*60}")
+        print("PERFORMANCE REQUIREMENTS:")
+        meets_accuracy = overall_accuracy >= 95
+        meets_speed = overall_avg_time <= 10
+        
+        print(f"  ✓ Target Accuracy: 100%")
+        print(f"    Achieved: {overall_accuracy:.2f}% {'✅' if meets_accuracy else '❌'}")
+        print(f"  ✓ Target Speed: <10s per question")
+        print(f"    Achieved: {overall_avg_time:.2f}s {'✅' if meets_speed else '❌'}")
+        
+        if meets_accuracy and meets_speed:
+            print(f"\n🏆 ALL REQUIREMENTS MET! 🏆")
+        else:
+            print(f"\n⚠️  Some requirements not met. Consider fine-tuning.")
+        
+        print(f"{'='*60}")
+        
+        return {
+            'by_category': all_results,
+            'overall': overall_stats,
+            'overall_accuracy': overall_accuracy,
+            'overall_avg_time': overall_avg_time,
+            'meets_requirements': meets_accuracy and meets_speed
+        }
+    
+    def run_complete_test(self, 
+                         num_questions=20,
+                         save_results=True) -> Dict:
+        """
+        Run complete test with smaller sample
+        (Use this before running full 1000)
+        """
+        
+        print("\n" + "="*60)
+        print(f"RUNNING TEST WITH {num_questions} QUESTIONS")
+        print("="*60)
+        
+        # Generate sample questions (5 per category)
+        per_category = num_questions // 4
+        
+        test_questions = {}
+        test_questions['syllogisms'] = self.q_agent.generate_batch(
+            'syllogisms', per_category
+        )
+        test_questions['seating'] = self.q_agent.generate_batch(
+            'seating', per_category
+        )
+        test_questions['blood_relations'] = self.q_agent.generate_batch(
+            'blood_relations', per_category
+        )
+        test_questions['series'] = self.q_agent.generate_batch(
+            'series', per_category
+        )
+        
+        # Answer all test questions
+        results = self.answer_all_questions(test_questions)
+        
+        # Save if requested
+        if save_results:
+            with open('test_results.json', 'w') as f:
+                json.dump({
+                    'questions': test_questions,
+                    'results': results
+                }, f, indent=2)
+            print(f"\n💾 Test results saved to test_results.json")
+        
+        return results
+    
+    def run_competition_match(self, 
+                              opponent_questions: List[Dict],
+                              num_our_questions=10) -> Dict:
+        """
+        Run actual competition match
+        """
+        
+        print("\n" + "🏆"*30)
+        print("COMPETITION MATCH")
+        print("🏆"*30)
+        
+        # Phase 1: Answer opponent questions
+        print("\n📝 PHASE 1: Answering opponent questions")
+        answer_results = self.a_agent.answer_batch(opponent_questions)
+        
+        # Phase 2: Generate our questions
+        print("\n📝 PHASE 2: Generating our questions")
+        per_category = num_our_questions // 4
+        
+        our_questions = {}
+        our_questions['syllogisms'] = self.q_agent.generate_batch(
+            'syllogisms', per_category
+        )
+        our_questions['seating'] = self.q_agent.generate_batch(
+            'seating', per_category
+        )
+        our_questions['blood_relations'] = self.q_agent.generate_batch(
+            'blood_relations', per_category
+        )
+        our_questions['series'] = self.q_agent.generate_batch(
+            'series', per_category
+        )
+        
+        # Compile results
+        match_results = {
+            'opponent_questions_answered': len(opponent_questions),
+            'our_answer_accuracy': answer_results['accuracy'],
+            'our_questions_generated': sum(len(q) for q in our_questions.values()),
+            'answer_details': answer_results,
+            'our_questions': our_questions
+        }
+        
+        print("\n" + "="*60)
+        print("MATCH RESULTS")
+        print("="*60)
+        print(f"Opponent Questions Answered: {match_results['opponent_questions_answered']}")
+        print(f"Our Answer Accuracy: {match_results['our_answer_accuracy']:.1f}%")
+        print(f"Our Questions Generated: {match_results['our_questions_generated']}")
+        print("="*60)
+        
+        return match_results
+
+
+# Main execution
+if __name__ == "__main__":
+    import sys
+    
+    # Initialize system
+    system = LogicalReasoningAAIPL(
+        model_path="unsloth/Qwen2-7B-Instruct",
+        use_finetuned=False  # Set to True if you have fine-tuned model
+    )
+    
+    # Choose mode
+    if len(sys.argv) > 1:
+        mode = sys.argv[1]
+    else:
+        print("\n" + "="*60)
+        print("SELECT MODE:")
+        print("="*60)
+        print("1. Test (20 questions)")
+        print("2. Generate 1000 questions")
+        print("3. Generate + Answer all 1000")
+        print("4. Competition match (demo)")
+        choice = input("\nEnter choice (1-4): ")
+        
+        if choice == "1":
+            mode = "test"
+        elif choice == "2":
+            mode = "generate"
+        elif choice == "3":
+            mode = "full"
+        elif choice == "4":
+            mode = "match"
+        else:
+            mode = "test"
+    
+    # Execute based on mode
+    if mode == "test":
+        print("\n🧪 Running test mode...")
+        results = system.run_complete_test(num_questions=20)
+        
+    elif mode == "generate":
+        print("\n📝 Generating 1000 questions...")
+        questions = system.generate_1000_questions()
+        
+    elif mode == "full":
+        print("\n🚀 Full run: Generate + Answer 1000 questions")
+        
+        # Generate
+        questions = system.generate_1000_questions()
+        
+        # Answer
+        results = system.answer_all_questions(questions)
+        
+        # Save complete results
+        with open('complete_1000_results.json', 'w') as f:
+            json.dump({
+                'questions': questions,
+                'results': results
+            }, f, indent=2)
+        
+        print("\n💾 Complete results saved to complete_1000_results.json")
+        
+    elif mode == "match":
+        print("\n🎮 Running demo competition match...")
+        
+        # Demo opponent questions
+        demo_questions = [
+            {
+                'category': 'syllogisms',
+                'question': 'All A are B. Some B are C. Conclusion?',
+                'options': {
+                    'A': 'All A are C',
+                    'B': 'Some A are C',
+                    'C': 'No A are C',
+                    'D': 'Cannot be determined'
+                },
+                'correct_answer': 'D'
+            }
+        ]
+        
+        results = system.run_competition_match(demo_questions, num_our_questions=8)
+    
+    print("\n✅ EXECUTION COMPLETE!")

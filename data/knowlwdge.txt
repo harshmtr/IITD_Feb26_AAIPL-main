@@ -1,0 +1,378 @@
+# Logical Reasoning Knowledge Base for AAIPL
+
+## Topic 1: Syllogisms
+
+### Core Concepts
+A syllogism is a logical argument with two premises and a conclusion.
+
+**Structure:**
+- Major Premise: All A are B
+- Minor Premise: All C are A  
+- Conclusion: Therefore, all C are B
+
+**Types of Syllogisms:**
+
+1. **Categorical Syllogisms**
+   - All A are B (Universal Affirmative)
+   - No A are B (Universal Negative)
+   - Some A are B (Particular Affirmative)
+   - Some A are not B (Particular Negative)
+
+2. **Valid Forms:**
+   - Barbara: All M are P, All S are M → All S are P
+   - Celarent: No M are P, All S are M → No S are P
+   - Darii: All M are P, Some S are M → Some S are P
+   - Ferio: No M are P, Some S are M → Some S are not P
+
+3. **Common Fallacies:**
+   - Undistributed Middle: Middle term not distributed in either premise
+   - Illicit Major/Minor: Terms distributed in conclusion but not in premises
+   - Exclusive Premises: Both premises are negative
+   - Affirmative Conclusion from Negative Premise
+
+**Examples:**
+
+Valid:
+- All humans are mortal
+- Socrates is human
+- Therefore, Socrates is mortal
+
+Invalid:
+- All cats are animals
+- All dogs are animals
+- Therefore, all cats are dogs (undistributed middle)
+
+### Key Rules:
+1. Middle term must be distributed at least once
+2. If a term is distributed in conclusion, it must be distributed in premise
+3. From two negative premises, no conclusion follows
+4. If one premise is negative, conclusion must be negative
+5. From two particular premises, no conclusion follows
+
+---
+
+## Topic 2: Seating Arrangements (Linear, Circular)
+
+### Linear Arrangements
+
+**Key Concepts:**
+- Fixed positions vs relative positions
+- Left/Right orientation matters
+- End positions have special properties
+
+**Common Patterns:**
+
+1. **Direct Information:**
+   - A sits at position 3
+   - B sits to the left of C
+   - D sits between E and F
+
+2. **Relative Information:**
+   - A sits two places from B
+   - C sits at one end
+   - D is not adjacent to E
+
+3. **Conditional Information:**
+   - If A sits at position 1, then B sits at position 5
+   - Either C or D sits in the middle
+
+**Solving Strategy:**
+1. Draw a linear arrangement (1-2-3-4-5-6)
+2. Mark fixed positions first
+3. Use relative positions to constrain possibilities
+4. Eliminate contradictions
+5. Verify all conditions
+
+### Circular Arrangements
+
+**Key Differences:**
+- No fixed start/end points
+- Clockwise vs counterclockwise matters
+- Opposite positions are n/2 apart (for n people)
+- Adjacent means next to, not left/right specifically
+
+**Important Rules:**
+- n people can be arranged in (n-1)! ways in a circle
+- If clockwise/counterclockwise are same, then (n-1)!/2 ways
+
+**Common Question Types:**
+
+1. **Fixed Reference:**
+   - A sits at 12 o'clock position
+   - B sits opposite to A
+   - C sits to the immediate right of A
+
+2. **Relative Positions:**
+   - A and B sit opposite each other
+   - C sits between D and E
+   - F is two positions clockwise from G
+
+3. **Directional:**
+   - All face center vs All face outward
+   - Clockwise vs Counterclockwise
+
+**Solving Strategy:**
+1. Draw a circle with n positions
+2. Fix one person as reference (eliminates rotation)
+3. Mark opposite/adjacent positions
+4. Use clockwise/counterclockwise constraints
+5. Verify all face same/different direction
+
+---
+
+## Topic 3: Blood Relations and Family Tree
+
+### Core Relationships
+
+**Generation 1 (Same Level):**
+- Brother, Sister, Cousin
+- Husband, Wife
+- Brother-in-law, Sister-in-law
+
+**Generation +1 (One Up):**
+- Father, Mother
+- Uncle (father's/mother's brother)
+- Aunt (father's/mother's sister)
+- Father-in-law, Mother-in-law
+
+**Generation +2 (Two Up):**
+- Grandfather, Grandmother
+- Great-uncle, Great-aunt
+
+**Generation -1 (One Down):**
+- Son, Daughter
+- Nephew (brother's/sister's son)
+- Niece (brother's/sister's daughter)
+- Son-in-law, Daughter-in-law
+
+**Generation -2 (Two Down):**
+- Grandson, Granddaughter
+
+### Key Rules:
+
+1. **Gender Determination:**
+   - Brother's/Father's/Son's/Uncle's → Male
+   - Sister's/Mother's/Daughter's/Aunt's → Female
+
+2. **Relationship Chains:**
+   - Father's father = Grandfather
+   - Mother's brother = Maternal uncle
+   - Sister's son = Nephew
+   - Brother's wife = Sister-in-law
+
+3. **In-law Relationships:**
+   - Spouse's sibling = Brother/Sister-in-law
+   - Spouse's parent = Father/Mother-in-law
+   - Sibling's spouse = Brother/Sister-in-law
+   - Child's spouse = Son/Daughter-in-law
+
+4. **Special Cases:**
+   - Only son/daughter (no siblings)
+   - Only child (no brothers or sisters)
+   - Step-relations (remarriage)
+   - Adopted relations
+
+### Common Question Patterns:
+
+**Pattern 1: Direct Chain**
+"A's father's sister's son" = A's cousin
+
+**Pattern 2: Gender Puzzle**
+"A said to B: Your mother is the only daughter of my mother"
+Analysis: A's mother's only daughter = A (if female) or A's sister
+Answer: B is A's son/daughter (or nephew/niece)
+
+**Pattern 3: Pointing Photo**
+"A man pointing to a photo says: His mother is the wife of my father"
+Analysis: Wife of my father = My mother
+His mother = My mother → He is my brother
+Answer: Brother
+
+**Pattern 4: Complex Chain**
+"If A is B's father and C's son, what is C to B?"
+Analysis: A is C's son means C is A's parent
+A is B's father means B is A's child
+Therefore C is B's grandparent
+
+### Solving Strategy:
+1. Draw a family tree
+2. Mark male (□) and female (○) symbols
+3. Connect with lines (= for marriage, | for parent-child)
+4. Trace the relationship path
+5. Count generations and determine relation
+
+---
+
+## Topic 4: Series and Patterns (Alphanumeric)
+
+### Number Series Patterns
+
+**Common Types:**
+
+1. **Arithmetic Progression (AP):**
+   - Constant difference: 2, 5, 8, 11, 14 (+3)
+   - Double difference: 1, 2, 4, 7, 11, 16 (+1, +2, +3, +4, +5)
+
+2. **Geometric Progression (GP):**
+   - Constant ratio: 2, 6, 18, 54, 162 (×3)
+   - Square/Cube: 1, 4, 9, 16, 25 (1², 2², 3², 4², 5²)
+
+3. **Fibonacci Type:**
+   - Each term = sum of previous two: 1, 1, 2, 3, 5, 8, 13
+   - Modified: 2, 3, 5, 8, 13, 21
+
+4. **Prime Number Series:**
+   - 2, 3, 5, 7, 11, 13, 17, 19, 23
+
+5. **Alternating Series:**
+   - Two patterns interleaved: 2, 10, 4, 12, 6, 14, 8
+   - (2, 4, 6, 8) and (10, 12, 14)
+
+6. **Mixed Operations:**
+   - +2, ×2, +2, ×2: 1, 3, 6, 8, 16, 18
+   - n² + n: 2, 6, 12, 20, 30 (1²+1, 2²+2, 3²+3, 4²+4, 5²+5)
+
+### Letter Series Patterns
+
+**Common Types:**
+
+1. **Alphabetical Position:**
+   - A=1, B=2, C=3, ... Z=26
+   - Skip letters: A, C, E, G, I (+2 positions)
+
+2. **Reverse Order:**
+   - Z, Y, X, W, V (-1 position from end)
+
+3. **Mixed Number-Letter:**
+   - A1, B2, C3, D4, E5
+   - Consonants: B, C, D, F, G, H, J, K, L, M, N
+   - Vowels: A, E, I, O, U
+
+4. **Word Patterns:**
+   - CAT, DOG, BAT, COW (3-letter animals)
+   - First letter alphabetical: APPLE, BALL, CAT, DOG
+
+### Alphanumeric Mixed Series
+
+**Pattern Types:**
+
+1. **Alternating:**
+   - A1, B2, C3, D4, E5
+   - 1A, 2B, 3C, 4D, 5E
+
+2. **Position-based:**
+   - A = 1st letter, 1 = 1st number
+   - Z = 26th letter, 26 = number
+
+3. **Operation-based:**
+   - A2 (A=1, 1×2=2)
+   - B3 (B=2, 2+1=3)
+   - C6 (C=3, 3×2=6)
+
+### Solving Strategy:
+1. Look for differences between consecutive terms
+2. Check for second-order differences
+3. Test for arithmetic/geometric progression
+4. Check for prime numbers
+5. Look for alternating patterns
+6. For letters, check alphabetical position
+7. Look for skip patterns (every 2nd, 3rd term)
+
+### Common Tricks:
+- Missing number is the odd one out
+- Pattern changes halfway through
+- Two interleaved series
+- Reverse pattern at midpoint
+
+---
+
+## Advanced Problem-Solving Techniques
+
+### General Strategy:
+
+1. **Read Carefully:**
+   - Identify the type of problem
+   - Note all given information
+   - Identify what is being asked
+
+2. **Visualize:**
+   - Draw diagrams (family tree, seating, etc.)
+   - Use symbols (male/female, positions)
+   - Mark known information first
+
+3. **Apply Logic:**
+   - Use elimination
+   - Test each option
+   - Look for contradictions
+
+4. **Verify:**
+   - Check answer satisfies all conditions
+   - Ensure no logical inconsistencies
+
+### Time-Saving Tips:
+
+1. **Pattern Recognition:**
+   - Memorize common syllogism forms
+   - Know standard series patterns
+   - Remember relationship chains
+
+2. **Elimination:**
+   - Remove obviously wrong options first
+   - Use constraint violations to eliminate
+
+3. **Shortcut Methods:**
+   - For circular: Fix one person, arrange others
+   - For linear: Start from fixed positions
+   - For series: Check last term first
+
+---
+
+## Common Error Types to Avoid
+
+1. **Syllogisms:**
+   - Don't assume "Some A are B" means "Some A are not B"
+   - Don't reverse statements without valid conversion
+   - Watch for distributed/undistributed terms
+
+2. **Seating:**
+   - Circular: Don't confuse clockwise/counterclockwise
+   - Linear: Don't confuse left/right orientation
+   - Don't forget facing direction changes relationships
+
+3. **Blood Relations:**
+   - Don't confuse in-law relations
+   - Don't assume gender without clear indicators
+   - Don't skip generations in chains
+
+4. **Series:**
+   - Don't assume pattern continues same way
+   - Don't miss alternating sequences
+   - Don't ignore position values in alphanumeric
+
+---
+
+## Practice Problem Categories
+
+### Easy (Foundation):
+- Simple syllogisms (2 premises, direct)
+- Linear seating with 4-5 people
+- Direct blood relations (father's brother)
+- Simple arithmetic series (+n, ×n)
+
+### Medium (Application):
+- Complex syllogisms (3+ statements)
+- Circular seating with 6-8 people
+- Two-step blood relations (father's sister's son)
+- Mixed operation series
+
+### Hard (Analysis):
+- Multiple syllogisms with interconnected statements
+- Circular seating with conditions and facing directions
+- Complex family trees with marriages and generations
+- Alphanumeric with multiple pattern layers
+
+### Expert (Synthesis):
+- Syllogisms with universal and particular statements
+- Combined linear and circular arrangements
+- Family puzzles with incomplete information
+- Series with changing patterns mid-sequence
